@@ -19,8 +19,18 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
+    compile project(':lib-obb-storage')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile project(':lib-obb-storage')
+    compile 'com.android.support:support-v13:22.2.0'
+    compile(name: 'core-release', ext: 'aar')
+    compile(name: 'utils-release', ext: 'aar')
+    compile(name: 'ui-release', ext: 'aar')
 }

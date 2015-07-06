@@ -1,0 +1,98 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.compilelab.obbstorage.ui.fragment.CompressActivityFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        >
+
+        <EditText
+            android:id="@+id/edt_content_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_content_path"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="50"
+            android:minLines="4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/edt_package_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_package_name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="50"
+            android:minLines="4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/edt_package_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_package_version"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="50"
+            android:minLines="4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/edt_obb_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_obb_path"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="50"
+            android:minLines="4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/edt_secure_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_secure_key"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:minLines="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/btn_compress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:minWidth="120dp"
+            android:onClick="onClickCompress"
+            android:text="@string/txt_compress"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</ScrollView>

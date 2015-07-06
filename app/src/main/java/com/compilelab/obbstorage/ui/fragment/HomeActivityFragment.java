@@ -1,4 +1,4 @@
-package com.compilelab.obbstorage;
+package com.compilelab.obbstorage.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.compilelab.obbstorage.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class HomeActivityFragment extends Fragment {
 
     public HomeActivityFragment() {

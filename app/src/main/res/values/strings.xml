@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">OBB Storage</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_extract">Extract OBB</string>
+    <string name="title_activity_compress">Compress to OBB</string>
     <string name="action_settings">Settings</string>
+    <string name="hint_obb_path">OBB file path</string>
+    <string name="hint_extract_path">Extraction path</string>
+    <string name="hint_content_path">Content path</string>
+    <string name="hint_secure_key">Secure key</string>
+    <string name="hint_package_name">Package name</string>
+    <string name="hint_package_version">Package version</string>
+    <string name="txt_extract">Extract</string>
+    <string name="txt_compress">Compress</string>
 </resources>

@@ -1,12 +1,16 @@
-package com.compilelab.obbstorage;
+package com.compilelab.obbstorage.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.compilelab.obbstorage.R;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +39,13 @@ public class HomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickExtract(View view) {
+        startActivity(new Intent(getApplicationContext(), ExtractActivity.class));
+    }
+
+    public void onClickCompress(View view) {
+        startActivity(new Intent(getApplicationContext(), CompressActivity.class));
     }
 }

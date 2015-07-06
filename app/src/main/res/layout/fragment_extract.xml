@@ -6,16 +6,32 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context=".HomeActivityFragment">
+                tools:context="com.compilelab.obbstorage.ui.fragment.ExtractActivityFragment">
 
-    <TextView
-        android:id="@+id/txt_help"
+    <EditText
+        android:id="@+id/edt_obb_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:maxLines="20"
+        android:hint="@string/hint_obb_path"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:maxLines="50"
         android:minLines="4"
-        android:text="@string/txt_help"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="14sp"/>
+
+    <EditText
+        android:id="@+id/edt_extract_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_obb_path"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_extract_path"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:maxLines="50"
+        android:minLines="4"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="14sp"/>
 
@@ -23,7 +39,7 @@
         android:id="@+id/btn_extract"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_help"
+        android:layout_below="@+id/edt_extract_path"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:minWidth="120dp"
@@ -33,17 +49,4 @@
         android:textSize="16sp"
         android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/btn_compress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_extract"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:minWidth="120dp"
-        android:onClick="onClickCompress"
-        android:text="@string/txt_compress"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
 </RelativeLayout>
