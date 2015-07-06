@@ -6,16 +6,16 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context=".HomeActivityFragment">
+                tools:context="com.compilelab.obbstorage.ui.fragment.HomeActivityFragment">
 
     <TextView
         android:id="@+id/txt_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:maxLines="20"
         android:minLines="4"
-        android:text="@string/txt_help"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="14sp"/>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="path_obb_dir" translatable="false">Android/obb/</string>
-    <string name="path_extract_dir" translatable="false">obb-storage/extracted/</string>
+    <string name="path_obb_dir" translatable="false">/Android/obb/</string>
+    <string name="path_extract_dir" translatable="false">/obb-storage/extracted/</string>
 </resources>
