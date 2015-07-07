@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.compilelab.obbstorage.ObbExtractor;
 import com.compilelab.obbstorage.R;
-import com.compilelab.obbstorage.obb.ObbExtractor;
 import com.jana.android.ui.fragment.AbstractFragment;
 
 public class ExtractActivityFragment extends AbstractFragment implements View.OnClickListener {
@@ -55,8 +55,8 @@ public class ExtractActivityFragment extends AbstractFragment implements View.On
                         (R.string.path_obb_dir) + "com.compilelab.obbstorage/" + "main.2.com.compilelab.obbstorage.obb";
                 String extractionPath = Environment.getExternalStorageDirectory().getPath() + getString(R.string.path_extract_dir) + "2";
 
-                ObbExtractor extractor = new ObbExtractor(obbPath, null, extractionPath, true);
-                extractor.extract();
+                ObbExtractor extractor = new ObbExtractor();
+                extractor.extract(obbPath, null, extractionPath, true);
 
                 return null;
             }

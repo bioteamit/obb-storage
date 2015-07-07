@@ -1,6 +1,4 @@
-package com.compilelab.obbstorage.obb;
-
-import android.text.TextUtils;
+package com.compilelab.obbstorage;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,52 +23,44 @@ import de.waldheinz.fs.util.FileDisk;
 
 public class ObbExtractor {
 
-    private String inputFile;
-    private File directoryFile;
-    private boolean hasOutputDirectory;
-    private String key;
-    private byte[] fishKey;
-    private boolean isEncrypted;
     private ByteBuffer tempBuf = ByteBuffer.allocate(1024 * 1024);
-    private boolean verboseMode;
 
-    public ObbExtractor(String obbPath, String secureKey, String extractionPath, boolean verboseMode) {
-        this.inputFile = obbPath;
-        if (!TextUtils.isEmpty(secureKey)) {
-            this.key = secureKey;
-            this.isEncrypted = true;
-        }
+    public boolean extract(String obbPath, String secureKey, String extractionPath, boolean verboseMode) {
 
-        if (!TextUtils.isEmpty(extractionPath)) {
-            this.directoryFile = new File(extractionPath);
-            this.hasOutputDirectory = true;
-        }
+        boolean isEncrypted;
+        byte[] fishKey = null;
+        File directoryFile = null;
+        boolean hasOutputDirectory = false;
 
-        this.verboseMode = verboseMode;
-    }
-
-    public boolean extract() {
-        if (null == inputFile) {
+        if (null == obbPath || obbPath.length() == 0) {
             return false;
         }
 
+        if (extractionPath != null && extractionPath.length() > 0) {
+            directoryFile = new File(extractionPath);
+            hasOutputDirectory = true;
+        }
+
         ObbFile obbFile = new ObbFile();
-        obbFile.readFrom(inputFile);
+        obbFile.readFrom(obbPath);
+
         System.out.print("Package Name: ");
         System.out.println(obbFile.mPackageName);
         System.out.print("Package Version: ");
         System.out.println(obbFile.mPackageVersion);
+
         if (0 != (obbFile.mFlags & ObbFile.OBB_SALTED)) {
             System.out.print("SALT: ");
             BigInteger bi = new BigInteger(obbFile.mSalt);
             System.out.println(bi.toString(16));
             System.out.println();
-            if (null == key) {
+            if (null == secureKey || secureKey.length() == 0) {
                 System.out.println("Encrypted file. Please add password.");
                 return false;
             }
+
             try {
-                fishKey = PBKDF.getKey(key, obbFile.mSalt);
+                fishKey = PBKDF.getKey(secureKey, obbFile.mSalt);
                 bi = new BigInteger(fishKey);
                 System.out.println(bi.toString(16));
             } catch (InvalidKeyException e) {
@@ -84,7 +74,7 @@ public class ObbExtractor {
         } else {
             isEncrypted = false;
         }
-        File obbInputFile = new File(inputFile);
+        File obbInputFile = new File(obbPath);
 
         BlockDevice fd;
         try {
@@ -100,7 +90,7 @@ public class ObbExtractor {
             if (verboseMode) {
                 printVerboseInfo(bs, rootDir);
             }
-            dumpDirectory(rootDir, 0, directoryFile);
+            dumpDirectory(rootDir, 0, directoryFile, hasOutputDirectory);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
@@ -109,7 +99,9 @@ public class ObbExtractor {
         return true;
     }
 
-    protected void dumpDirectory(FsDirectory dir, int tabStop, File curDirectory) throws IOException {
+    protected void dumpDirectory(FsDirectory dir, int tabStop, File curDirectory, boolean hasOutputDirectory)
+            throws
+            IOException {
         Iterator<FsDirectoryEntry> i = dir.iterator();
         while (i.hasNext()) {
             final FsDirectoryEntry e = i.next();
@@ -124,42 +116,49 @@ public class ObbExtractor {
                     System.out.print("  ");
                 }
                 System.out.println("[" + e + "]");
-                dumpDirectory(e.getDirectory(), tabStop + 1, new File(curDirectory, e.getName()));
+                dumpDirectory(e.getDirectory(), tabStop + 1, new File(curDirectory, e.getName()),
+                        hasOutputDirectory);
             } else {
                 for (int idx = 0; idx < tabStop; idx++) {
                     System.out.print("  ");
                 }
+
                 System.out.println(e);
-                if (hasOutputDirectory) {
-                    if (!curDirectory.exists()) {
-                        if (false == curDirectory.mkdirs()) {
-                            throw new IOException("Unable to create directory: " + curDirectory);
-                        }
+
+                if (!hasOutputDirectory) {
+                    continue;
+                }
+
+                if (!curDirectory.exists()) {
+                    if (false == curDirectory.mkdirs()) {
+                        throw new IOException("Unable to create directory: " + curDirectory);
                     }
-                    File curFile = new File(curDirectory, e.getName());
-                    if (curFile.exists()) {
-                        throw new IOException("File exists: " + curFile);
-                    } else {
-                        FsFile f = e.getFile();
-                        FileOutputStream fos = null;
-                        try {
-                            fos = new FileOutputStream(curFile);
-                            FileChannel outputChannel = fos.getChannel();
-                            int capacity = tempBuf.capacity();
-                            long length = f.getLength();
-                            for (long pos = 0; pos < length; pos++) {
-                                int readLength = (int) (length - pos > capacity ? capacity : length - pos);
-                                tempBuf.rewind();
-                                tempBuf.limit(readLength);
-                                f.read(pos, tempBuf);
-                                tempBuf.rewind();
-                                while (tempBuf.remaining() > 0)
-                                    outputChannel.write(tempBuf);
-                                pos += readLength;
+                }
+
+                File curFile = new File(curDirectory, e.getName());
+                if (curFile.exists()) {
+                    throw new IOException("File exists: " + curFile);
+                } else {
+                    FsFile f = e.getFile();
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(curFile);
+                        FileChannel outputChannel = fos.getChannel();
+                        int capacity = tempBuf.capacity();
+                        long length = f.getLength();
+                        for (long pos = 0; pos < length; pos++) {
+                            int readLength = (int) (length - pos > capacity ? capacity : length - pos);
+                            tempBuf.rewind();
+                            tempBuf.limit(readLength);
+                            f.read(pos, tempBuf);
+                            tempBuf.rewind();
+                            while (tempBuf.remaining() > 0) {
+                                outputChannel.write(tempBuf);
                             }
-                        } finally {
-                            if (null != fos) fos.close();
+                            pos += readLength;
                         }
+                    } finally {
+                        if (null != fos) fos.close();
                     }
                 }
             }
